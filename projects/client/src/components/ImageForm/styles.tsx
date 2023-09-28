@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { colors } from "../../shared/colors";
 
 export const Layout = styled.div`
   display: grid;

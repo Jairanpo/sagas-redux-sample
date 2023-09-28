@@ -3,8 +3,8 @@ import { colors } from "../../shared/colors";
 ////////////////////////////////////////////////////////////////////////////////
 
 type Props = {
-  error: any;
-  resetErrorBoundary: any;
+  error: Error;
+  resetErrorBoundary: ()=>void;
 };
 
 export default function FallbackComponent({
