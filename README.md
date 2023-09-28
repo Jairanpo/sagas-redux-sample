@@ -31,4 +31,3 @@ or simply use
 ```
 docker compose up --build
 ```
-From there you can just access the 
