@@ -1,0 +1,17 @@
+html {
+  background: linear-gradient(to top, #111, #333);
+}
+
+html, body {
+  font-family: 'Matian Mono', monospace;
+}
+
+input{
+  padding: .4rem;
+  font-size: 1.2rem;
+  border-radius: 6px;
+}
+
+label{
+  font-size: 1.2rem; 
+}

@@ -1,0 +1,22 @@
+type ImageData {
+  image: String
+}
+
+type QueryImageSuccess{
+  status: String
+  message: String
+  data: ImageData
+}
+
+union QueryImageResult = QueryImageSuccess | Error | Invalid
+
+input QueryImageInput {
+  width: Int!
+  height: Int!
+  young: Boolean
+  grayscale: Boolean
+}
+
+type Query{
+  queryImages(input: QueryImageInput!): QueryImageResult
+}

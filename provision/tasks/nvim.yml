@@ -1,0 +1,37 @@
+---
+- name: Add Neovim repository
+  become: true
+  apt_repository: 
+    repo: "ppa:neovim-ppa/stable"
+    state: present
+- name: Install Neovim
+  become: true
+  apt: 
+    name: neovim
+    state: present
+- name: Install Packages
+  become: true
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - fzf
+    - ripgrep
+- name: Required directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ HOME }}/.local/share/nvim/site/autoload"
+    - "{{ HOME }}/.config"
+- name: Download VimPlug
+  get_url:
+    url: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+    dest: "{{ HOME }}/.local/share/nvim/site/autoload/plug.vim"
+- name: Link config
+  file:
+    src: "{{ path_to_nvim }}"
+    dest: "{{ HOME }}/.config/nvim"
+    state: link
+    force: yes

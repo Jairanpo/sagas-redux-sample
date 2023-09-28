@@ -1,0 +1,14 @@
+---
+- name: Create .Font directory
+  file: 
+    path: "{{ HOME }}/.fonts"
+    state: directory
+    mode: '0755' 
+
+- name: Link Fonts
+  file: 
+    src: "{{ PATH_TO_FONTS }}/{{ item }}"
+    dest: "{{ HOME }}/.fonts/{{ item }}"
+    state: link
+    force: yes
+  with_items: "{{ LIST_OF_FONTS }}"

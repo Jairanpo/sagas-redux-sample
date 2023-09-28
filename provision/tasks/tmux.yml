@@ -1,0 +1,9 @@
+---
+- name: Install Tmux
+  package:
+    name: tmux
+    state: latest
+- name: Clone Tmux Plugin Manager
+  git: 
+    repo: "https://github.com/tmux-plugins/tpm"
+    dest: "{{ lookup('env', 'HOME') }}/.tmux/plugins/tpm"

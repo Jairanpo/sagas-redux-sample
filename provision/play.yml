@@ -1,0 +1,122 @@
+---
+- name: Initial required packages
+  hosts: all
+  become: true
+  tasks:
+    - package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - unzip
+        - git
+        - make
+
+- name: Ansible Repository
+  hosts: all
+  tasks: 
+    - name: Cloning ansible repository
+      become: true
+      git:
+        repo: "https://github.com/Jairanpo/ansible.git"
+        dest: "{{ lookup('env', 'HOME') }}/ansible"
+        recursive: yes
+        update: yes
+        accept_hostkey: yes
+        version: master
+    - name:
+      become: true
+      file:
+        path: "{{ lookup('env', 'HOME') }}/ansible"
+        owner: "{{ ansible_user_id }}"
+        recurse: yes
+        state: directory
+    - name:
+      copy:
+        content: |
+          #!/bin/bash
+          cd ./ansible && make play
+        dest: "{{ lookup('env', 'HOME') }}/run-ansible"
+        mode: "u+x"
+ 
+- name: FONTS
+  hosts: all
+  tasks:
+    - include_tasks: tasks/fonts.yml
+
+- name: INSTALL GOLANG
+  hosts: all
+  become: true
+  vars:
+    source: "https://go.dev/dl"
+    file: "{{ GOTAR }}"
+    downloads: "{{HOME}}/Downloads"
+    gobin: "{{ GOBIN }}"
+  tasks:
+    - include_tasks: tasks/golang.yml
+
+- name: CONFIGURE NODE
+  hosts: all
+  become: true
+  gather_facts: no
+  debugger: on_failed
+  vars:
+    VERSION: "node_18.x"
+    DISTRO: "focal"
+    npm_global_modules: 
+    - "nodemon"
+    - "@sentry/cli"
+    - "serverless"
+    - "yarn"
+    - "typescript-language-server"
+    - "typescript"
+  tasks:
+    - include_tasks: tasks/node.yml
+
+- name: Install Ohh My Zsh
+  hosts: all
+  become: true
+  tasks:
+    - name: Install ZShell
+      apt:
+        name: zsh
+        state: present
+    - name: Setup zsh for user
+      user:
+        name: "vagrant"
+        shell: /bin/zsh
+    - name: Download Oh My Zsh!
+      get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: /home/vagrant
+    - name: Check for $ZSH
+      stat:
+        path: /root/.oh-my-zsh
+      register: check_for_zsh
+    - name: Delete previous installation
+      file:
+        path: /root/.oh-my-zsh
+        state: absent
+      when: check_for_zsh.stat.exists
+    - name: Execution permissions
+      file: 
+        path: /home/vagrant/install.sh
+        mode: 'u=rwx,o=rwx,g=rwx'
+    - name: Install Oh My Zsh!
+      shell: /home/vagrant/install.sh
+
+- name: Install powerlevel10k
+  hosts: all
+  tasks:
+    - name: Git checkout
+      git:
+        repo: 'https://github.com/romkatv/powerlevel10k.git'
+        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/themes/powerlevel10k"
+
+- name: Install Terraform
+  hosts: all
+  become: true
+  gather_facts: no
+  vars:
+    PREFIX: "Terraform"
+  tasks:
+    - include_tasks: tasks/terraform.yml

@@ -1,0 +1,18 @@
+---
+- name: "{{PREFIX}}: Create bin path if doesn't exists"
+  file:
+    path: "{{ PATH_TO_BIN }}"
+    state: directory
+- name: "{{PREFIX}}: Create zip path if doesn't exists"
+  file:
+    path: "{{ PATH_TO_ZIP }}"
+    state: directory
+- name: "{{ PREFIX }}: Check if terraform command exists`"
+  command: which terraform
+  register: tf_cmd_result
+  ignore_errors: yes
+- name: "{{ PREFIX }}:Unarchive and move binary to /usr/local/bin"
+  unarchive:
+    src: "{{ TERRAFORM_ZIP_URL }}"
+    dest: /usr/local/bin
+    remote_src: yes

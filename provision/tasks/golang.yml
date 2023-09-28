@@ -1,0 +1,23 @@
+---
+- name: Create downloads dir
+  file:
+    path: "{{ downloads }}"
+    state: directory
+- name: Download installer
+  get_url:
+    url: "{{ source }}/{{ file }}"
+    dest: "{{ downloads }}/{{ file }}"
+    mode: "777"
+- name: Extract GO installer
+  unarchive:
+    src: "{{ downloads }}/{{ file }}"
+    dest: "{{ HOME }}"
+- name: Add GO bin dir to system PATH
+  lineinfile:
+    dest: /etc/environment
+    state: present
+    backrefs: yes
+    regexp: 'PATH=(["]*)((?!.*?{{ gobin }}).*?)(["]*)$'
+    line: "PATH=\\1\\2:{{ gobin }}\\3"
+
+

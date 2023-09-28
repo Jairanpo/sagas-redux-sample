@@ -1,0 +1,16 @@
+type Error {
+  status: String
+  message: String
+  code: Int
+}
+
+type Invalid {
+  status: String
+  message: String
+  code: Int
+}
+
+type Success {
+  status: String
+  message: String
+}

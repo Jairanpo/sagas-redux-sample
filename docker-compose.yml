@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  proxy:
+    container_name: 'proxy'
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./projects/proxy
+    ports:
+      - '8080:80'
+    depends_on:
+      - api
+      - client
+    networks:
+      - dev-network
+  client:
+    container_name: client
+    restart: always
+    depends_on: 
+      - api
+    ports:
+      - '3000:3000'
+    build:
+      dockerfile: Dockerfile
+      context: projects/client
+    volumes:
+      - /app/node_modules
+      - ./projects/client/:/app
+    networks:
+      - dev-network
+  api:
+    hostname: api
+    container_name: api
+    restart: always
+    ports: 
+      - '4000:4000'
+    build:
+      dockerfile: Dockerfile
+      context: projects/api
+    volumes:
+      - /app/node_modules
+      - ./projects/api/:/app
+    networks:
+      - dev-network
+networks:
+  dev-network:
+    driver: bridge
+

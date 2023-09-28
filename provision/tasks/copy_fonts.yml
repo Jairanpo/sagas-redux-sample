@@ -1,0 +1,11 @@
+---
+- name: "Add font {{ font }}"
+  file: 
+    src: "{{ lookup('env', 'HOME') }}/app/Playbooks/.fonts/{{ font }}"
+    dest: "{{ lookup('env', 'HOME') }}/.fonts/{{ font }}"
+    force: yes
+    state: link
+
+
+
+

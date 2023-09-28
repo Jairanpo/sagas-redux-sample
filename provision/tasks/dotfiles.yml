@@ -1,0 +1,30 @@
+---
+- name: Remove folder
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.dotfiles"
+    state: absent
+- name: Cloning dotfiles
+  git:
+    repo: "git@github.com:Jairanpo/dotfiles.git"
+    dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
+    recursive: yes
+    update: yes
+    accept_hostkey: yes
+    version: main
+  tags:
+    - install
+    - dotfiles
+- name: Make scripts executable
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.dotfiles/{{ item }}"
+    mode: u+x
+  with_items:
+    - ubuntu
+    - install
+- name: Stow dotfiles for Ubuntu
+  shell: "cd {{ lookup('env', 'HOME') }}/.dotfiles && ./ubuntu"
+  tags:
+    - install
+    - ubuntu
+    - dotfiles
+

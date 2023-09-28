@@ -1,0 +1,10 @@
+html {
+  background: #212121;
+  color: #EEE;
+  font-family: 'Martian Mono', monospace;
+}
+button {
+  font-family: 'Martian Mono', monospace;
+  border-radius: 6px;
+  box-shadow: 1px 1px #121212;
+}

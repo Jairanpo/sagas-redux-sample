@@ -1,0 +1,26 @@
+HOME: /home/vagrant
+PATH_TO_WORKSPACE: /ws
+PATH_TO_BIN: /home/vagrant/bin
+PATH_TO_ZIP: /home/vagrant/zip
+PATH_TO_SCRIPS: /ws/provisioning/scripts
+
+PATH_TO_CONFIGS: /ws/provisioning/config
+GOPATH: /home/vagrant/go
+GOTAR: "go1.20.2.linux-arm64.tar.gz"
+GOBIN: /home/vagrant/go/bin
+
+AWS_ZIP_URL: "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip"
+TERRAFORM_ZIP_URL: "https://releases.hashicorp.com/terraform/1.4.6/terraform_1.4.6_linux_arm64.zip"
+
+LIST_OF_CONFIG_FILES:
+  - ".tmux.conf"
+  - ".bashrc"
+  - ".zshrc"
+  - ".p10k.zsh"
+
+PATH_TO_FONTS: /ws/provisioning/fonts
+LIST_OF_FONTS:
+  - 'MesloLGS NF Bold Italic.tff'
+  - 'MesloLGS NF Bold Bold.tff'
+  - 'MesloLGS NF Bold Italic.tff'
+  - 'MesloLGS NF Bold Regular.tff'
