@@ -53,7 +53,6 @@ const RedButton = styled.button`
   align-items: center;
   background-color: ${colors.red};
   color: ${colors.white};
-  font-family: "Noto" sans-serif;
   padding: 0.5rem 1rem 0.5rem 1rem;
   font-size: 1rem;
   text-transform: uppercase;
